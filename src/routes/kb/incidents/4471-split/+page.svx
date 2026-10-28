@@ -1,0 +1,63 @@
+---
+layout: runbook
+title: '#4471 split · not one problem'
+owner: support desk
+status: living
+reviewed: 2026-10-28
+signature: 'v1.eyJzdWIiOiIyNzMzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMxNjI3NDMsImV4cCI6MTc5MzI0OTE0M30.DQYYBiY2twCGE5e9iCdClTvmYWGuaiMaxXs3eVNdD-E'
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) was merged on one rule: the subject line matches
+([decision 0001](/kb/decisions/0001-dedupe-by-subject)). Subjects say how a reporter felt, not what broke.
+Read against each report's tenant, channel and body, the ticket holds more than one problem. Each has its own fix
+and its own ticket in the repo.
+
+<Callout kind="warn">
+The queued fix covers only `parser`. Closing #4471 as "known, fix queued" leaves the others open
+with no owner.
+</Callout>
+
+## The split
+
+<ProblemTable ticket={4471} />
+
+## The problems
+
+**`parser` · the shared parser reads every date month first.** A tenant whose locale writes the day first
+(every tenant on file) gets its dates flipped: 7 April comes out as 4 July. This is the bug #4471 names, and
+the queued fix is for it. It is by far the largest group.
+
+**`hint` · booking-v3 prints `MM/DD/YYYY` under the date field.** On the day-first tenants that run booking-v3, people who book through the form type what the hint tells them, month first, and the form reads
+it the tenant's way. The parser fix does not touch this: the dates are wrong when they are typed. Only
+`form` reports can be this problem; the same tenants' app and email reports are `parser`.
+
+**`one-day-move` · the date is a day off, not flipped.** The desk already read these reports as a one-day
+move (`desk-notes.json`) and footnoted them under `parser`. Their text does not fit a month/day swap: a
+Tuesday invite for a Monday booking, an invite sent before the booking existed, one meeting that reached
+Lisbon and Toronto on different days. That points at time zones. It is a lead, not a diagnosis: the sample
+is small, and engineering should confirm it.
+
+## What went wrong in the merge
+
+- Intake tags come from the reporter's browser, a guess made at the door. They disagree with the cause
+  from the tenant's data, so a tag is a hint to read the report, not a reason to merge.
+- The export repeats some rows. Count by id, once.
+- A few reports carry no dates at all. They stay under the cause their tenant gives, and a human should
+  read them when the fix lands.
+
+## Lessons
+
+- Merge on cause, not on subject. The cause comes from the tenant and the channel
+  ([triage](/kb/triage/dedupe) still says otherwise, and decision 0001 is accepted: a new record has to
+  replace it, nobody edits it).
+- A table that adds up to the ticket is not proof that the ticket is one problem.
+- Numbers on this page are computed from the export when the page is built. If the desk's data
+  changes, the page changes with it.
+
+<RenderStamp {signature} />
