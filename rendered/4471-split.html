@@ -12,7 +12,7 @@ it the tenant’s way. The parser fix does not touch this: the dates are wrong w
 for a Monday booking, an invite sent before the booking existed, one meeting that reached Lisbon and Toronto
 on different days. The desk keeps them where they are filed, under <code>parser</code>, and footnotes them
 (<code>desk-notes.json</code>). They are counted in the <code>parser</code> row above, not as a problem of their own. Engineering
-should read them when the parser fix lands: if the day is still off, time zones are the next place to look.</p> <h2>What went wrong in the merge</h2> <ul><li>Intake tags come from the reporter’s browser, a guess made at the door. They disagree with the cause
+should read them when the parser fix lands: if the day is still off, time zones are the next place to look.</p> <h2>Tickets</h2> <ul><li><a href="https://github.com/ssztyper/megaDev/issues/1" rel="nofollow">#1</a> · <code>parser</code></li> <li><a href="https://github.com/ssztyper/megaDev/issues/2" rel="nofollow">#2</a> · <code>hint</code></li></ul> <h2>What went wrong in the merge</h2> <ul><li>Intake tags come from the reporter’s browser, a guess made at the door. They disagree with the cause
 from the tenant’s data, so a tag is a hint to read the report, not a reason to merge.</li> <li>The export repeats some rows. Count by id, once.</li> <li>A few reports carry no dates at all. They stay under the cause their tenant gives, and a human should
 read them when the fix lands.</li></ul> <h2>Lessons</h2> <ul><li>Merge on cause, not on subject. The cause comes from the tenant and the channel
 (<a href="/kb/triage/dedupe">triage</a> still says otherwise, and decision 0001 is accepted: a new record has to

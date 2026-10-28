@@ -43,6 +43,11 @@ on different days. The desk keeps them where they are filed, under `parser`, and
 (`desk-notes.json`). They are counted in the `parser` row above, not as a problem of their own. Engineering
 should read them when the parser fix lands: if the day is still off, time zones are the next place to look.
 
+## Tickets
+
+- [#1](https://github.com/ssztyper/megaDev/issues/1) · `parser`
+- [#2](https://github.com/ssztyper/megaDev/issues/2) · `hint`
+
 ## What went wrong in the merge
 
 - Intake tags come from the reporter's browser, a guess made at the door. They disagree with the cause
