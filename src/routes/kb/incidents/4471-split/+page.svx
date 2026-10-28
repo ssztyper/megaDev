@@ -14,7 +14,7 @@ signature: 'v1.eyJzdWIiOiIyNzMzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
 </script>
 
 [#4471](/kb/incidents/4471) was merged on one rule: the subject line matches
-([decision 0001](/kb/decisions/0001-dedupe-by-subject)). Subjects say how a reporter felt, not what broke.
+([decision 0001](/kb/decisions/0001-dedupe-by-subject), replaced by [0002](/kb/decisions/0002-dedupe-by-cause)). Subjects say how a reporter felt, not what broke.
 Read against each report's tenant and channel, the ticket holds more than one problem. Each has its own fix
 and its own ticket in the repo.
 

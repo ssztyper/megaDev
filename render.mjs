@@ -18,7 +18,7 @@ const server = await createServer({
   plugins: [
     svelte({
       extensions: ['.svelte', '.svx'],
-      compilerOptions: { dev: false },
+      compilerOptions: { dev: false, css: 'injected' },
       preprocess: mdsvex({ extensions: ['.svx'], layout: { runbook: path.join(root, 'src/lib/layouts/runbook.svelte') } }),
     }),
   ],
