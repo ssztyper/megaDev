@@ -1,0 +1,38 @@
+---
+layout: runbook
+title: '0002 · Duplicates share a cause'
+owner: support desk
+status: accepted
+reviewed: 2026-10-28
+---
+
+<script>
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+**Date:** 28 October 2026 · **Deciders:** support desk · **Replaces:** [0001](/kb/decisions/0001-dedupe-by-subject)
+
+## Context
+
+Decision 0001 merged reports on subject alone. In #4471 that put reports about different bugs into one
+ticket and marked it known. Read against each report's tenant and channel, the ticket held two problems,
+`parser` and `hint`, each with its own fix. See the [split](/kb/incidents/4471-split).
+
+## Decision
+
+Two reports are the same issue when they share a **cause**, as `causeOf` in `src/lib/kb/causes.ts` gives it
+from the tenant's locale, the tenant's booking form and the report's channel. The subject line and the
+intake tag are not evidence: intake tagged what it saw in the reporter's browser, and the tag disagrees
+with the cause. Reports the desk read differently (`desk-notes.json`) stay where they are filed and are
+footnoted.
+
+## Consequences
+
+- One ticket per cause, each with its own count. A fix closes only the ticket it covers.
+- Triage reads the tenant and channel, not only the subject. That costs a lookup per report.
+- Decision 0001 stays as written. This record replaces it.
+
+<Callout kind="warn">
+During an incident, when the cause is not clear yet, merge on subject as a stopgap and re-split once the
+cause is known. Count again after the split.
+</Callout>

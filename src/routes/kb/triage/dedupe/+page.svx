@@ -14,6 +14,11 @@ reviewed: 2024-06-11
 A busy morning brings hundreds of reports about the same thing. We keep one ticket per issue
 and merge every duplicate into it, so engineering sees one thread with a count.
 
+<Callout kind="warn">
+Replaced by [decision 0002](/kb/decisions/0002-dedupe-by-cause): match on cause, not on subject. The rule below
+caused #4471 to hide two problems in one ticket ([split](/kb/incidents/4471-split)).
+</Callout>
+
 ## The rule
 
 A report is a duplicate when its **subject line matches** the subject of an open ticket
