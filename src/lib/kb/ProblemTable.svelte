@@ -17,7 +17,7 @@
 
 <table>
   <thead>
-    <tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th></tr>
+    <tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>read as a one-day move</th></tr>
   </thead>
   <tbody>
     {#each split.groups as g (g.problem)}
@@ -26,10 +26,11 @@
         <td>{g.reports.length}</td>
         <td>{g.tenants.length}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
+        <td>{g.readAsMove || ''}</td>
       </tr>
     {/each}
   </tbody>
   <tfoot>
-    <tr><td>total</td><td>{total}</td><td></td><td>{total === split.merged ? 'matches the ticket' : 'does not match the ticket'}</td></tr>
+    <tr><td>total</td><td>{total}</td><td></td><td>{total === split.merged ? 'matches the ticket' : 'does not match the ticket'}</td><td></td></tr>
   </tfoot>
 </table>

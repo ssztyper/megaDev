@@ -15,7 +15,7 @@ signature: 'v1.eyJzdWIiOiIyNzMzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
 
 [#4471](/kb/incidents/4471) was merged on one rule: the subject line matches
 ([decision 0001](/kb/decisions/0001-dedupe-by-subject)). Subjects say how a reporter felt, not what broke.
-Read against each report's tenant, channel and body, the ticket holds more than one problem. Each has its own fix
+Read against each report's tenant and channel, the ticket holds more than one problem. Each has its own fix
 and its own ticket in the repo.
 
 <Callout kind="warn">
@@ -37,11 +37,11 @@ the queued fix is for it. It is by far the largest group.
 it the tenant's way. The parser fix does not touch this: the dates are wrong when they are typed. Only
 `form` reports can be this problem; the same tenants' app and email reports are `parser`.
 
-**`one-day-move` · the date is a day off, not flipped.** The desk already read these reports as a one-day
-move (`desk-notes.json`) and footnoted them under `parser`. Their text does not fit a month/day swap: a
-Tuesday invite for a Monday booking, an invite sent before the booking existed, one meeting that reached
-Lisbon and Toronto on different days. That points at time zones. It is a lead, not a diagnosis: the sample
-is small, and engineering should confirm it.
+**Reports read as a one-day move.** Some reports describe a date a day off, not flipped: a Tuesday invite
+for a Monday booking, an invite sent before the booking existed, one meeting that reached Lisbon and Toronto
+on different days. The desk keeps them where they are filed, under `parser`, and footnotes them
+(`desk-notes.json`). They are counted in the `parser` row above, not as a problem of their own. Engineering
+should read them when the parser fix lands: if the day is still off, time zones are the next place to look.
 
 ## What went wrong in the merge
 
