@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 split · not one problem'
 owner: support desk
-status: living
+status: closed
 reviewed: 2026-10-28
 signature: 'v1.eyJzdWIiOiIyNzMzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMxNjI3NDMsImV4cCI6MTc5MzI0OTE0M30.DQYYBiY2twCGE5e9iCdClTvmYWGuaiMaxXs3eVNdD-E'
 ---
@@ -15,12 +15,12 @@ signature: 'v1.eyJzdWIiOiIyNzMzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
 
 [#4471](/kb/incidents/4471) was merged on one rule: the subject line matches
 ([decision 0001](/kb/decisions/0001-dedupe-by-subject), replaced by [0002](/kb/decisions/0002-dedupe-by-cause)). Subjects say how a reporter felt, not what broke.
-Read against each report's tenant and channel, the ticket holds more than one problem. Each has its own fix
-and its own ticket in the repo.
+Read against each report's tenant and channel, the ticket holds more than one problem. Each has its own
+ticket in the repo, and engineering closed #4471 on 5 October with a different outcome for each.
 
-<Callout kind="warn">
-The queued fix covers only `parser`. Closing #4471 as "known, fix queued" leaves the others open
-with no owner.
+<Callout>
+Engineering update, #4471 closed 5 October: `parser` **fixed** (`fix(dates): parse dd/mm for eu locales`);
+`hint` **won't fix** (booking-v3 form retired). One fix did not cover the whole ticket.
 </Callout>
 
 ## The split
@@ -30,37 +30,37 @@ with no owner.
 ## The problems
 
 **`parser` · the shared parser reads every date month first.** A tenant whose locale writes the day first
-(every tenant on file) gets its dates flipped: 7 April comes out as 4 July. This is the bug #4471 names, and
-the queued fix is for it. It is by far the largest group.
+(every tenant on file) gets its dates flipped: 7 April comes out as 4 July. This is the bug #4471 names. It is by far the largest
+group. **Fixed** by `fix(dates): parse dd/mm for eu locales`.
 
 **`hint` · booking-v3 prints `MM/DD/YYYY` under the date field.** On the day-first tenants that run booking-v3, people who book through the form type what the hint tells them, month first, and the form reads
 it the tenant's way. The parser fix does not touch this: the dates are wrong when they are typed. Only
-`form` reports can be this problem; the same tenants' app and email reports are `parser`.
+`form` reports can be this problem; the same tenants' app and email reports are `parser`. **Won't fix:** the
+booking-v3 form is retired, so no new reports of this kind can come in.
 
 **Reports read as a one-day move.** Some reports describe a date a day off, not flipped: a Tuesday invite
 for a Monday booking, an invite sent before the booking existed, one meeting that reached Lisbon and Toronto
 on different days. The desk keeps them where they are filed, under `parser`, and footnotes them
-(`desk-notes.json`). They are counted in the `parser` row above, not as a problem of their own. Engineering
-should read them when the parser fix lands: if the day is still off, time zones are the next place to look.
+(`desk-notes.json`). They are counted in the `parser` row above, not as a problem of their own. Now that the
+parser fix has shipped, if these tenants still see a day off, time zones are the next place to look.
 
 ## Tickets
 
-- [#1](https://github.com/ssztyper/megaDev/issues/1) · `parser`
-- [#2](https://github.com/ssztyper/megaDev/issues/2) · `hint`
+- [#1](https://github.com/ssztyper/megaDev/issues/1) · `parser` · closed, fixed
+- [#2](https://github.com/ssztyper/megaDev/issues/2) · `hint` · closed, won't fix (form retired)
 
 ## What went wrong in the merge
 
 - Intake tags come from the reporter's browser, a guess made at the door. They disagree with the cause
   from the tenant's data, so a tag is a hint to read the report, not a reason to merge.
 - The export repeats some rows. Count by id, once.
-- A few reports carry no dates at all. They stay under the cause their tenant gives, and a human should
-  read them when the fix lands.
+- A few reports carry no dates at all. They stay under the cause their tenant gives.
 
 ## Lessons
 
 - Merge on cause, not on subject. The cause comes from the tenant and the channel
-  ([triage](/kb/triage/dedupe) still says otherwise, and decision 0001 is accepted: a new record has to
-  replace it, nobody edits it).
+  ([decision 0002](/kb/decisions/0002-dedupe-by-cause) replaces 0001; [triage](/kb/triage/dedupe) points
+  to it).
 - A table that adds up to the ticket is not proof that the ticket is one problem.
 - Numbers on this page are computed from the export when the page is built. If the desk's data
   changes, the page changes with it.
